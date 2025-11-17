@@ -23,6 +23,14 @@ public:
         cout << "Produto: " << nome << ", Categoria: " << categoria << ", Preco: " << preco << " , Estoque: " << estoque << endl;
     }
 };
+// estruct para venda
+struct Venda
+{
+    string nomeProduto;
+    int quantidade;
+    double valorTotal;
+};
+// ---------------funções ----------
 Produto *buscarProduto(vector<Produto> &produtos, const string &nome)
 {
     for (auto &p : produtos)
@@ -34,6 +42,7 @@ Produto *buscarProduto(vector<Produto> &produtos, const string &nome)
     }
     return nullptr;
 }
+
 void exibirCategoriasUnicas(const vector<Produto> &produtos)
 {
     set<string> categoriaUnica; // set categoria unica
@@ -120,8 +129,8 @@ void buscarProdutoPorNome(vector<Produto> &produtos)
     else
         cout << "\nProduto nao encontrado! Atente as letras maiusculas e menusculas\n";
 }
-// Registrar venda (remove do estoque)
-void registrarVenda(vector<Produto> &produtos)
+// Registrar venda (remove do estoque e adiciona no histórico)
+void registrarVenda(vector<Produto> &produtos, vector<Venda> &historico)
 {
     cout << "\n--- Registar venda\n";
     cin.ignore();
@@ -153,12 +162,28 @@ void registrarVenda(vector<Produto> &produtos)
     }
 
     produto->estoque -= quantidade;
+    historico.push_back({produto->nome, quantidade, produto->preco * quantidade});
+
     cout << "Venda feita com sucesso Total: R$ " << produto->preco * quantidade << endl;
 }
 
+void exibirHistorico(const vector<Venda> &historico)
+{
+    cout << "\n--- Historico de Vendas ---\n";
+    if (historico.empty())
+    {
+        cout << "Nenhuma venda registrada.\n";
+        return;
+    }
+    for (const auto &v : historico)
+    {
+        cout << "Produto: " << v.nomeProduto << " | Quantidade: " << v.quantidade << " | Total: R$ " << v.valorTotal << endl;
+    }
+}
 int main()
 {
     vector<Produto> produtos;
+    vector<Venda> historico;
 
     // adicionando produtos
     produtos.push_back(Produto("Camisa", "Vestuario", 79.90, 30));
@@ -166,6 +191,7 @@ int main()
     produtos.push_back(Produto("Notebook", "Eletronicos", 3500.00, 5));
     produtos.push_back(Produto("Mouse Gamer", "Eletronicos", 150.00, 15));
 
+    // menu
     int opcao;
     do
     {
@@ -177,7 +203,8 @@ int main()
         cout << "5 - Mostrar Categorias Unicas\n";
         cout << "6 - Buscar Produto por nome\n";
         cout << "7 - Registrar venda\n";
-        cout << "8 - Sair\n";
+        cout << "8 - Mostrar historico de vendas\n";
+        cout << "9 - Sair do programa\n";
         cout << "Escolha uma opcao (Digite apenas numeros): ";
         cin >> opcao;
 
@@ -193,7 +220,7 @@ int main()
 
         case 3:
         {
-            // quantidade Total do estoque por Categoria(map)
+            // map<string, int> quantidade Total do estoque por Categoria(map)
             auto quantidadeEmEstoque = quantidadeEmEstoquePorCategoria(produtos);
             cout << "\n-----Quantidade Total do estoque por Categoria(map):\n";
             for (const auto &par : quantidadeEmEstoque)
@@ -228,17 +255,19 @@ int main()
             break;
 
         case 7:
-            registrarVenda(produtos);
+            registrarVenda(produtos, historico);
             break;
-
         case 8:
+            exibirHistorico(historico);
+            break;
+        case 9:
             cout << "Encerrando o sistema...\n";
             break;
 
         default:
             cout << "\n----Opcao invalida!----\n";
         }
-    } while (opcao != 8);
+    } while (opcao != 9);
 
     return 0;
 }
