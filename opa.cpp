@@ -73,8 +73,9 @@ void adicionarProduto(vector<Produto> &produtos)
     string nome, categoria;
     double preco;
     int estoque;
-    cout << "\n---ADICIONAR PRODUTO: ";
-    cout << "\nNome do Produto: ";
+    cout << "\n---ADICIONAR PRODUTO: \n";
+    cin.ignore();
+    cout << "Nome do Produto: ";
     getline(cin, nome);
     cout << "Categoria do Produto: ";
     getline(cin, categoria);
@@ -96,28 +97,66 @@ int main()
     produtos.push_back(Produto("Notebook", "Eletronicos", 3500.00, 5));
     produtos.push_back(Produto("Mouse Gamer", "Eletronicos", 150.00, 15));
 
-    exibirProdutos(produtos);
-
-    adicionarProduto(produtos);
-
-    exibirProdutos(produtos);
-
-    // quantidade Total do estoque por Categoria(map)
-    auto quantidadeEmEstoque = quantidadeEmEstoquePorCategoria(produtos);
-    cout << "\n-----Quantidade Total do estoque por Categoria(map):\n";
-    for (const auto &par : quantidadeEmEstoque)
+    int opcao;
+    do
     {
-        cout << "Categoria: " << par.first << " | Quantidade Total:  " << par.second << endl;
-    }
+        cout << "\n========== MENU ==========\n";
+        cout << "1 - Adicionar Produto\n";
+        cout << "2 - Listar Produtos\n";
+        cout << "3 - Quantidade Total do estoque por Categoria\n";
+        cout << "4 - Valor total em estoque por categoria\n";
+        cout << "5 - Mostrar Categorias Unicas\n";
+        cout << "6 - Sair\n";
+        cout << "Escolha uma opcao: ";
+        cin >> opcao;
 
-    // map<string, double>: valor total em estoque por categoria
-    auto valorTotalEmEstoque = valorTotalEmEstoquePorCategoria(produtos);
-    cout << "\n-----Valor Total por Categoria(map):\n";
-    for (const auto &par : valorTotalEmEstoque)
-    {
-        cout << "Categoria: " << par.first << " | Valor Total: R$ " << par.second << endl;
-    }
+        switch (opcao)
+        {
+        case 1:
+            adicionarProduto(produtos);
+            break;
 
-    exibirCategoriasUnicas(produtos);
+        case 2:
+            exibirProdutos(produtos);
+            break;
+
+        case 3:
+        {
+            // quantidade Total do estoque por Categoria(map)
+            auto quantidadeEmEstoque = quantidadeEmEstoquePorCategoria(produtos);
+            cout << "\n-----Quantidade Total do estoque por Categoria(map):\n";
+            for (const auto &par : quantidadeEmEstoque)
+            {
+                cout << "Categoria: " << par.first << " | Quantidade Total:  " << par.second << endl;
+            }
+            break;
+        }
+
+        case 4:
+        {
+            // map<string, double>: valor total em estoque por categoria
+            auto valorTotalEmEstoque = valorTotalEmEstoquePorCategoria(produtos);
+            cout << "\n-----Valor Total por Categoria(map):\n";
+            for (const auto &par : valorTotalEmEstoque)
+            {
+                cout << "Categoria: " << par.first << " | Valor Total: R$ " << par.second << endl;
+            }
+            break;
+        }
+
+        case 5:
+            exibirCategoriasUnicas(produtos);
+            break;
+
+        case 6:
+            cout << "Encerrando o sistema...\n";
+            break;
+
+        default:
+            cout << "\n----Opcao invalida!----\n";
+        }
+
+    } while (opcao != 6);
+
     return 0;
 }
