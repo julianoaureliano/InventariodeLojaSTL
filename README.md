@@ -19,15 +19,15 @@ Um sistema simples em **C++** para gerenciamento de produtos, controle de estoqu
 
 ## Menu do Sistema
 
-1 - Adicionar Produto
-2 - Listar Produtos
-3 - Quantidade Total do estoque por Categoria
-4 - Valor total em estoque por categoria
-5 - Mostrar Categorias Unicas
-6 - Buscar Produto por nome
-7 - Registrar venda
-8 - Mostrar historico de vendas
-9 - Sair do programa
+- 1 - Adicionar Produto
+- 2 - Listar Produtos
+- 3 - Quantidade Total do estoque por Categoria
+- 4 - Valor total em estoque por categoria
+- 5 - Mostrar Categorias Unicas
+- 6 - Buscar Produto por nome
+- 7 - Registrar venda
+- 8 - Mostrar historico de vendas
+- 9 - Sair do programa
 
 ---
 
