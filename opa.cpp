@@ -87,6 +87,33 @@ void adicionarProduto(vector<Produto> &produtos)
     cout << "Produto adicionado com sucesso!\n";
 }
 
+Produto *buscarProduto(vector<Produto> &produtos, const string &nome)
+{
+    for (auto &p : produtos)
+    {
+        if (p.nome == nome)
+        {
+            return &p;
+        }
+    }
+    return nullptr;
+}
+
+void buscarProdutoPorNome(vector<Produto> &produtos)
+{
+    cout << "\n--- BUSCAR PRODUTO ---\n";
+    cin.ignore();
+    string nome;
+    cout << "Digite o nome: ";
+    getline(cin, nome);
+
+    Produto *p = buscarProduto(produtos, nome);
+    if (p != nullptr)
+        p->exibir();
+    else
+        cout << "\nProduto nao encontrado! Atente as letras maiusculas e menusculas\n";
+}
+
 int main()
 {
     vector<Produto> produtos;
@@ -106,7 +133,8 @@ int main()
         cout << "3 - Quantidade Total do estoque por Categoria\n";
         cout << "4 - Valor total em estoque por categoria\n";
         cout << "5 - Mostrar Categorias Unicas\n";
-        cout << "6 - Sair\n";
+        cout << "6 - Buscar Produto por nome\n";
+        cout << "7 - Sair\n";
         cout << "Escolha uma opcao: ";
         cin >> opcao;
 
@@ -137,10 +165,14 @@ int main()
             // map<string, double>: valor total em estoque por categoria
             auto valorTotalEmEstoque = valorTotalEmEstoquePorCategoria(produtos);
             cout << "\n-----Valor Total por Categoria(map):\n";
+            double totalvalorEstoque = 0;
             for (const auto &par : valorTotalEmEstoque)
             {
                 cout << "Categoria: " << par.first << " | Valor Total: R$ " << par.second << endl;
+                totalvalorEstoque += par.second;
             }
+            cout << "---Valor total do Inventário: R$" << totalvalorEstoque << endl;
+
             break;
         }
 
@@ -149,6 +181,9 @@ int main()
             break;
 
         case 6:
+            buscarProdutoPorNome(produtos);
+            break;
+        case 7:
             cout << "Encerrando o sistema...\n";
             break;
 
@@ -156,7 +191,7 @@ int main()
             cout << "\n----Opcao invalida!----\n";
         }
 
-    } while (opcao != 6);
+    } while (opcao != 7);
 
     return 0;
 }
