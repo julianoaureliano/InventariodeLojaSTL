@@ -68,6 +68,24 @@ map<string, double> valorTotalEmEstoquePorCategoria(const vector<Produto> &produ
     }
     return valorTotalEmEstoque;
 }
+void adicionarProduto(vector<Produto> &produtos)
+{
+    string nome, categoria;
+    double preco;
+    int estoque;
+    cout << "\n---ADICIONAR PRODUTO: ";
+    cout << "\nNome do Produto: ";
+    getline(cin, nome);
+    cout << "Categoria do Produto: ";
+    getline(cin, categoria);
+    cout << "Preco do produto: ";
+    cin >> preco;
+    cout << "Estoque do produto: ";
+    cin >> estoque;
+    produtos.emplace_back(nome, categoria, preco, estoque);
+    cout << "Produto adicionado com sucesso!\n";
+}
+
 int main()
 {
     vector<Produto> produtos;
@@ -77,6 +95,10 @@ int main()
     produtos.push_back(Produto("Calça Jeans", "Vestuario", 120.50, 20));
     produtos.push_back(Produto("Notebook", "Eletronicos", 3500.00, 5));
     produtos.push_back(Produto("Mouse Gamer", "Eletronicos", 150.00, 15));
+
+    exibirProdutos(produtos);
+
+    adicionarProduto(produtos);
 
     exibirProdutos(produtos);
 
